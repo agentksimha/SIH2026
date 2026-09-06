@@ -1,0 +1,23 @@
+# Core
+numpy==1.26.4
+faiss-cpu==1.7.4
+sentence-transformers==2.2.2
+huggingface-hub==0.19.4
+google-generativeai==0.8.3
+python-dotenv==1.0.1
+python-dateutil==2.9.0
+# API
+fastapi==0.110.0
+uvicorn==0.27.1
+requests==2.31.0
+beautifulsoup4==4.12.3
+feedparser==6.0.11
+aiohttp==3.9.5
+# PDF
+reportlab==4.1.0
+pillow==10.3.0
+# Cache
+cachetools==5.3.3
+
+
+
