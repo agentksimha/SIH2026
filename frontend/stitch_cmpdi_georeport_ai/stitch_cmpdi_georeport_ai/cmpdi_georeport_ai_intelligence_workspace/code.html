@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "border-subtle": "#1E293B", "surface-tint": "#ffb95f", "on-tertiary-fixed-variant": "#004c69", "tertiary-fixed": "#c4e7ff", "surface-container": "#1c2028", "on-surface": "#dfe2ee", "surface-dim": "#0f131c", "state-warning": "#F59E0B", "tertiary-container": "#38bdf8", "secondary-fixed": "#6ffbbe", "surface-card": "#131B2E", "on-tertiary-fixed": "#001e2c", "on-primary-container": "#613b00", "on-secondary-container": "#00311f", "outline-variant": "#534434", "error-container": "#93000a", "text-muted": "#64748B", "surface-variant": "#31353e", "text-primary": "#F8FAFC", "surface-container-high": "#262a33", "mining-gold-bright": "#FBBF24", "surface-container-highest": "#31353e", "surface-container-lowest": "#0a0e16", "mining-gold-deep": "#D97706", "on-primary-fixed": "#2a1700", "primary-container": "#f59e0b", "on-secondary-fixed": "#002113", "state-critical": "#EF4444", "surface": "#0f131c", "outline": "#a08e7a", "secondary": "#4edea3", "background": "#0f131c", "surface-container-low": "#181c24", "inverse-primary": "#855300", "surface-bright": "#353942", "error": "#ffb4ab", "on-error": "#690005", "on-primary-fixed-variant": "#653e00", "on-primary": "#472a00", "surface-hover": "#1E293B", "border-crisp": "#24324D", "on-surface-variant": "#d8c3ad", "text-secondary": "#94A3B8", "on-secondary-fixed-variant": "#005236", "secondary-container": "#00a572", "tertiary-fixed-dim": "#7bd0ff", "secondary-fixed-dim": "#4edea3", "on-error-container": "#ffdad6", "govtech-emerald-dim": "#064E3B", "govtech-emerald": "#10B981", "primary": "#ffc174", "on-secondary": "#003824", "on-tertiary": "#00354a", "on-tertiary-container": "#004965", "primary-fixed-dim": "#ffb95f", "surface-base": "#0B0F17", "inverse-surface": "#dfe2ee", "primary-fixed": "#ffddb8", "on-background": "#dfe2ee", "inverse-on-surface": "#2c3039", "tertiary": "#8ed5ff" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "workspace-width-ratio": "68%", "space-xs": "0.25rem", "space-2xs": "0.125rem", "space-sm": "0.5rem", "space-3xl": "3rem", "space-md": "0.75rem", "sidebar-width-ratio": "32%", "space-base": "1rem", "space-lg": "1.25rem", "space-xl": "1.5rem", "gutter": "1rem", "space-2xl": "2rem" }, "fontFamily": { "headline-md": ["Inter"], "body-md": ["Inter"], "body-lg": ["Inter"], "mono-metric-md": ["JetBrains Mono"], "body-sm": ["Inter"], "mono-metric-lg": ["JetBrains Mono"], "mono-label": ["JetBrains Mono"], "mono-citation": ["JetBrains Mono"], "headline-xl": ["Inter"], "headline-lg": ["Inter"], "headline-xl-mobile": ["Inter"] }, "fontSize": { "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "mono-metric-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "mono-metric-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "mono-label": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }], "mono-citation": ["11px", { "lineHeight": "14px", "fontWeight": "500" }], "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "700" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }] } } } };</script></head><body class="bg-surface-base font-body-md text-text-primary min-h-screen selection:bg-primary-container selection:text-surface-base"><header class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-base/95 backdrop-blur-xl border-b border-border-crisp"><div class="h-16 w-full px-space-xl flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-base min-w-max"><div class="flex items-center gap-space-sm"><img alt="Brand logo. - Primary color: #f59e0b - Font: inter - Mode: dark - Roundness: rounded-sm" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1URbFhDWbzYtSuQ3xR9_qu3BFG09XUZJ6UwPe0Kg1-LifkoklmjSSeO2aKGzsjnjamuo75ANMXPnRrD1E7GH47XryC26pMNa-rciymfSk74QQIwHVooQ_0fDj1pKbqsVaVmo7gr5XQeKNaKCJxIpLGk3g9zqLH6Th9QjgEJ0SVVgLx5De6Fp3FZ7y7EdwQkfHnJ-vjCSxTNpw-4w_-jGe5plgXSLXkyR8jIJ5wKTvA70pX37yLKjMhhkQ"/><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-headline-md text-headline-md font-bold tracking-tight text-text-primary">CMPDI GeoReport AI</span><span class="font-mono-citation text-mono-citation px-space-xs py-0.5 rounded bg-surface-container-high text-mining-gold-bright border border-border-crisp">ID: #26023</span></div><span class="font-body-sm text-body-sm text-text-muted">Ministry of Coal • Coal India Limited</span></div></div></div><nav class="hidden xl:flex items-center gap-space-xs h-full" data-active-classes="bg-surface-hover text-text-primary border-b-2 border-primary-container font-semibold"><a class="h-full flex items-center px-space-base font-body-md text-body-md text-text-secondary hover:text-text-primary hover:bg-surface-card transition-colors" data-path="overview-portal" href="#">Overview / Portal</a><a aria-current="page" class="h-full flex items-center px-space-base transition-colors bg-surface-hover text-text-primary border-b-2 border-primary-container font-semibold" data-path="intelligence-workspace" href="#">Intelligence Workspace</a><a class="h-full flex items-center px-space-base font-body-md text-body-md text-text-secondary hover:text-text-primary hover:bg-surface-card transition-colors" data-path="statutory-briefs-reports" href="#">Statutory Briefs &amp; Reports</a></nav><div class="flex items-center gap-space-md min-w-max"><div class="hidden lg:flex flex-col items-end px-space-sm py-0.5 rounded bg-surface-card border border-border-crisp"><span class="font-mono-label text-mono-label text-text-muted uppercase tracking-wider">Operational Subsidiary</span><span class="font-body-sm text-body-sm font-semibold text-text-primary flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-mining-gold-bright"></span>BCCL Dhanbad</span></div><div class="hidden md:flex items-center gap-space-xs px-space-sm py-1 rounded bg-govtech-emerald-dim/40 border border-govtech-emerald/30"><span class="w-2 h-2 rounded-full bg-govtech-emerald animate-pulse"></span><span class="font-mono-citation text-mono-citation text-govtech-emerald font-semibold">RAG: 99.4%</span></div><div class="relative flex items-center justify-center"><button class="w-9 h-9 rounded bg-surface-card hover:bg-surface-hover border border-border-crisp flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors relative" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 bg-state-warning rounded-full"></span></button></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="hidden sm:flex flex-col items-end text-right"><span class="font-body-sm text-body-sm font-semibold text-text-primary leading-tight">Er. Dinesh Sharma</span><span class="font-mono-citation text-mono-citation text-text-muted">Chief Surveyor</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-16 bg-surface-base min-h-screen"><div class="flex flex-col w-full">
+<!-- Interactive View Coordinator Logic (Vanilla JS) -->
+<script>
+    window.cmpdiStore = {
+      currentMainView: 'folder-drilldown', // 'hub' | 'folder-drilldown'
+      currentSubView: 'analytics', // 'analytics' | 'chat'
+      showEmptyState: false,
+      selectedDocs: { doc1: true, doc2: true, doc3: false },
+      
+      setMainView(view) {
+        this.currentMainView = view;
+        const hubEl = document.getElementById('view-hub-container');
+        const drilldownEl = document.getElementById('view-drilldown-container');
+        if (view === 'hub') {
+          hubEl.classList.remove('hidden');
+          drilldownEl.classList.add('hidden');
+        } else {
+          hubEl.classList.add('hidden');
+          drilldownEl.classList.remove('hidden');
+        }
+      },
+      
+      setSubView(sub) {
+        this.currentSubView = sub;
+        const btnAnalytics = document.getElementById('btn-toggle-analytics');
+        const btnChat = document.getElementById('btn-toggle-chat');
+        const viewAnalytics = document.getElementById('viewport-analytics');
+        const viewChat = document.getElementById('viewport-chat');
+
+        if (sub === 'analytics') {
+          viewAnalytics.classList.remove('hidden');
+          viewChat.classList.add('hidden');
+          btnAnalytics.className = 'flex items-center gap-space-xs px-space-md py-1.5 rounded-lg bg-surface-hover text-text-primary shadow-sm';
+          btnChat.className = 'flex items-center gap-space-xs px-space-md py-1.5 rounded-lg text-text-secondary hover:text-text-primary transition-colors';
+        } else {
+          viewAnalytics.classList.add('hidden');
+          viewChat.classList.remove('hidden');
+          btnChat.className = 'flex items-center gap-space-xs px-space-md py-1.5 rounded-lg bg-surface-hover text-text-primary shadow-sm';
+          btnAnalytics.className = 'flex items-center gap-space-xs px-space-md py-1.5 rounded-lg text-text-secondary hover:text-text-primary transition-colors';
+        }
+      },
+
+      toggleEmptyState() {
+        this.showEmptyState = !this.showEmptyState;
+        const docList = document.getElementById('repo-file-list');
+        const emptyView = document.getElementById('repo-empty-state');
+        const toggleBtn = document.getElementById('btn-toggle-empty');
+
+        if (this.showEmptyState) {
+          docList.classList.add('hidden');
+          emptyView.classList.remove('hidden');
+          toggleBtn.innerText = 'Restore 3 Active Files';
+        } else {
+          docList.classList.remove('hidden');
+          emptyView.classList.add('hidden');
+          toggleBtn.innerText = 'View "No History" Empty State';
+        }
+      },
+
+      sendPrompt(text) {
+        const input = document.getElementById('chat-input-field');
+        if (input) {
+          input.value = text;
+          input.focus();
+        }
+      }
+    };
+  </script>
+<!-- ========================================================================= -->
+<!-- STATE 1: WORKSPACES & SUBSIDIARY NOTEBOOKS (FOLDER HUB VIEW)               -->
+<!-- ========================================================================= -->
+<div class="hidden flex flex-col w-full px-space-xl py-space-xl space-y-space-xl" id="view-hub-container">
+<!-- Hub Top Bar -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-base pb-space-md border-b border-border-subtle">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm">
+<span class="p-2 rounded bg-surface-card text-mining-gold-bright">
+<span class="material-symbols-outlined text-[24px]">folder_special</span>
+</span>
+<h1 class="font-headline-lg text-headline-lg font-bold text-text-primary tracking-tight">Workspaces &amp; Subsidiary Notebooks</h1>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted mt-1">Geological dossier collections, statutory audit data lakes, and borehole lithology repositories.</p>
+</div>
+<!-- Actions & Search -->
+<div class="flex flex-wrap items-center gap-space-md">
+<div class="relative w-72">
+<span class="absolute inset-y-0 left-3 flex items-center text-text-muted pointer-events-none">
+<span class="material-symbols-outlined text-[18px]">search</span>
+</span>
+<input class="w-full pl-9 pr-3 py-2 bg-surface-card text-body-sm text-text-primary rounded-lg border border-border-crisp placeholder:text-text-muted focus:outline-none focus:border-primary-container" placeholder="Filter folders or subsidiaries..." type="text"/>
+</div>
+<button class="flex items-center gap-space-xs px-space-base py-2 rounded-lg bg-primary-container hover:bg-mining-gold-deep text-surface-base font-body-md font-bold transition-all shadow-md" type="button">
+<span class="material-symbols-outlined text-[18px]">create_new_folder</span>
+<span>+ Create New Project Folder</span>
+</button>
+</div>
+</div>
+<!-- Folder Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-base">
+<!-- Card 1: BCCL Jharia Opencast (Drill-Down Trigger) -->
+<div class="group relative flex flex-col justify-between p-space-lg rounded-xl bg-surface-card border border-primary-container/40 hover:border-mining-gold-bright hover:shadow-lg transition-all cursor-pointer" onclick="window.cmpdiStore.setMainView('folder-drilldown')">
+<div class="flex items-start justify-between mb-space-base">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-container/10 flex items-center justify-center text-mining-gold-bright">
+<span class="material-symbols-outlined text-[22px]">folder</span>
+</div>
+<div>
+<span class="font-mono-label text-mono-label text-mining-gold-bright uppercase tracking-wider font-semibold">Subsidiary: BCCL</span>
+<h2 class="font-headline-md text-headline-md font-bold text-text-primary group-hover:text-mining-gold-bright transition-colors">BCCL Jharia Opencast</h2>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded text-mono-citation font-semibold bg-govtech-emerald-dim text-govtech-emerald border border-govtech-emerald/30">Synced</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mb-space-base line-clamp-2">
+          Integrated lithology reports, Seam X-XII drill-core logs, and Q3 overburden telemetry records for Dhanbad coal belt.
+        </p>
+<div class="flex items-center justify-between pt-space-md border-t border-border-crisp font-mono-citation text-mono-citation text-text-muted">
+<div class="flex items-center gap-space-md">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">description</span> 3 Docs</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">hard_drive</span> 38.0 MB</span>
+</div>
+<span class="text-mining-gold-bright flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">Enter Workspace →</span>
+</div>
+</div>
+<!-- Card 2: ECL Raniganj Deep Basin -->
+<div class="flex flex-col justify-between p-space-lg rounded-xl bg-surface-card border border-border-crisp hover:border-text-muted transition-all cursor-pointer">
+<div class="flex items-start justify-between mb-space-base">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-dim flex items-center justify-center text-text-secondary">
+<span class="material-symbols-outlined text-[22px]">folder</span>
+</div>
+<div>
+<span class="font-mono-label text-mono-label text-text-muted uppercase tracking-wider font-semibold">Subsidiary: ECL</span>
+<h3 class="font-headline-md text-headline-md font-bold text-text-primary">ECL Raniganj Deep Basin</h3>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded text-mono-citation font-semibold bg-surface-hover text-text-secondary">Standby</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mb-space-base line-clamp-2">
+          Deep seated non-coking coal stratigraphy and seismic reflection surveys for Asansol geological subdivisions.
+        </p>
+<div class="flex items-center justify-between pt-space-md border-t border-border-crisp font-mono-citation text-mono-citation text-text-muted">
+<div class="flex items-center gap-space-md">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">description</span> 4 Docs</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">hard_drive</span> 62.4 MB</span>
+</div>
+<span>Updated Yesterday</span>
+</div>
+</div>
+<!-- Card 3: Parliamentary Winter Session 2024 -->
+<div class="flex flex-col justify-between p-space-lg rounded-xl bg-surface-card border border-border-crisp hover:border-text-muted transition-all cursor-pointer">
+<div class="flex items-start justify-between mb-space-base">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-dim flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined text-[22px]">account_balance</span>
+</div>
+<div>
+<span class="font-mono-label text-mono-label text-tertiary-container uppercase tracking-wider font-semibold">Ministry of Coal</span>
+<h3 class="font-headline-md text-headline-md font-bold text-text-primary">Parliamentary Winter 2024</h3>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded text-mono-citation font-semibold bg-state-critical/20 text-state-critical border border-state-critical/30">High Priority</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mb-space-base line-clamp-2">
+          Lok Sabha starred questions repository regarding clean coal technologies, washery outputs, and commercial block allocations.
+        </p>
+<div class="flex items-center justify-between pt-space-md border-t border-border-crisp font-mono-citation text-mono-citation text-text-muted">
+<div class="flex items-center gap-space-md">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">description</span> 2 Docs</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">hard_drive</span> 18.2 MB</span>
+</div>
+<span>Updated 3 hrs ago</span>
+</div>
+</div>
+<!-- Card 4: WCL Wardha Valley Expansion -->
+<div class="flex flex-col justify-between p-space-lg rounded-xl bg-surface-card border border-border-crisp hover:border-text-muted transition-all cursor-pointer">
+<div class="flex items-start justify-between mb-space-base">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-dim flex items-center justify-center text-text-muted">
+<span class="material-symbols-outlined text-[22px]">folder_open</span>
+</div>
+<div>
+<span class="font-mono-label text-mono-label text-text-muted uppercase tracking-wider font-semibold">Subsidiary: WCL</span>
+<h3 class="font-headline-md text-headline-md font-bold text-text-secondary">WCL Wardha Valley Expansion</h3>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded text-mono-citation font-semibold bg-surface-hover text-text-muted">No History</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted mb-space-base">
+          Geological block mapping in progress. Awaiting geophysical drill logs from Chandrapur regional surveyor branch.
+        </p>
+<div class="flex items-center justify-between pt-space-md border-t border-border-crisp font-mono-citation text-mono-citation text-text-muted">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">folder_off</span> 0 Documents</span>
+<span>Pending Ingest</span>
+</div>
+</div>
+<!-- Card 5: + Create New Mining Workspace -->
+<button class="group flex flex-col items-center justify-center p-space-xl rounded-xl border-2 border-dashed border-border-crisp hover:border-mining-gold-bright bg-surface-dim/50 hover:bg-surface-card transition-all text-center" type="button">
+<div class="w-12 h-12 rounded-full bg-surface-card group-hover:bg-primary-container/20 flex items-center justify-center text-text-muted group-hover:text-mining-gold-bright transition-colors mb-space-sm">
+<span class="material-symbols-outlined text-[26px]">add_circle</span>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-text-primary group-hover:text-mining-gold-bright transition-colors">+ Create New Mining Workspace</span>
+<span class="font-body-sm text-body-sm text-text-muted mt-1">Configure geological parameters, borehole data arrays, and document boundaries.</span>
+</button>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- STATE 2: ACTIVE FOLDER 2-COLUMN DRILL-DOWN (BCCL JHARIA OPENCAST)          -->
+<!-- ========================================================================= -->
+<div class="flex flex-col w-full" id="view-drilldown-container">
+<!-- Workspace Top Command Bar -->
+<div class="w-full bg-surface-card border-b border-border-crisp px-space-xl py-space-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
+<!-- Left: Back and Breadcrumbs -->
+<div class="flex items-center gap-space-md">
+<button class="flex items-center gap-space-xs px-space-sm py-1.5 rounded bg-surface-dim hover:bg-surface-hover text-text-secondary hover:text-text-primary border border-border-crisp font-body-sm transition-colors" onclick="window.cmpdiStore.setMainView('hub')" type="button">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+<span>All Workspaces</span>
+</button>
+<div class="h-5 w-px bg-border-crisp hidden sm:block"></div>
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-body-sm text-body-sm text-text-muted">Workspaces</span>
+<span class="text-text-muted">/</span>
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md font-bold text-text-primary">BCCL Jharia Opencast</span>
+<span class="font-mono-citation text-mono-citation px-space-xs py-0.5 rounded bg-mining-gold-bright/10 text-mining-gold-bright border border-mining-gold-bright/30 font-semibold">Active Model</span>
+</div>
+<span class="font-mono-label text-mono-label text-text-muted hidden md:inline ml-2">(3 Documents • 38.0 MB Indexed)</span>
+</div>
+</div>
+<!-- Right: Viewport Segmented Pill Switcher (View A / View B) -->
+<div class="flex items-center gap-space-sm self-end lg:self-auto">
+<div class="flex items-center p-1 rounded-lg bg-surface-dim border border-border-crisp">
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg bg-surface-hover text-text-primary shadow-sm transition-all" id="btn-toggle-analytics" onclick="window.cmpdiStore.setSubView('analytics')" type="button">
+<span class="material-symbols-outlined text-[18px] text-mining-gold-bright">insert_chart</span>
+<span class="font-body-md text-body-md font-semibold">Analytics &amp; Stratigraphy</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg text-text-secondary hover:text-text-primary transition-colors" id="btn-toggle-chat" onclick="window.cmpdiStore.setSubView('chat')" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary-container">forum</span>
+<span class="font-body-md text-body-md font-semibold">Parliamentary Q&amp;A</span>
+<span class="w-2 h-2 rounded-full bg-govtech-emerald ml-1"></span>
+</button>
+</div>
+</div>
+</div>
+<!-- Dual Column Split Layout -->
+<div class="w-full flex flex-col xl:flex-row flex-1">
+<!-- ===================================================================== -->
+<!-- LEFT COLUMN: THE DOCUMENT REPOSITORY (35% Width)                      -->
+<!-- ===================================================================== -->
+<aside class="w-full xl:w-[35%] bg-surface-dim border-b xl:border-b-0 xl:border-r border-border-crisp flex flex-col justify-between p-space-lg shrink-0">
+<div class="flex flex-col space-y-space-base">
+<!-- Repository Header -->
+<div class="flex items-center justify-between pb-space-sm border-b border-border-subtle">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px] text-text-secondary">folder_managed</span>
+<h2 class="font-headline-md text-headline-md font-bold text-text-primary">Indexed Repository</h2>
+</div>
+<button class="flex items-center gap-1 px-2.5 py-1 rounded bg-surface-card hover:bg-surface-hover border border-border-crisp text-mining-gold-bright text-body-sm font-semibold transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">upload_file</span>
+<span>+ Ingest Document</span>
+</button>
+</div>
+<!-- Description and Subtext -->
+<div class="flex items-center justify-between text-body-sm text-text-muted">
+<span>Context Inclusion Selection (Active in RAG)</span>
+<button class="text-mono-citation text-mining-gold-bright underline hover:text-mining-gold-deep cursor-pointer" id="btn-toggle-empty" onclick="window.cmpdiStore.toggleEmptyState()" type="button">
+              View "No History" Empty State
+            </button>
+</div>
+<!-- Document List (Interactive Inclusion Checkboxes) -->
+<div class="flex flex-col space-y-space-sm" id="repo-file-list">
+<!-- Document 1 -->
+<label class="flex items-start gap-space-sm p-space-md rounded-lg bg-surface-card border border-border-crisp hover:border-mining-gold-bright/40 transition-colors cursor-pointer">
+<input checked="" class="mt-1 accent-amber-500 rounded cursor-pointer" type="checkbox"/>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between gap-2">
+<span class="font-body-md text-body-md font-semibold text-text-primary truncate">BCCL_Overburden_Q3_2024.pdf</span>
+<span class="px-1.5 py-0.5 rounded text-mono-citation font-semibold bg-govtech-emerald-dim text-govtech-emerald shrink-0">Indexed</span>
+</div>
+<div class="flex items-center gap-space-xs mt-1 text-mono-citation text-text-muted">
+<span>14.2 MB</span>
+<span>•</span>
+<span>Borehole &amp; OBR Survey</span>
+<span>•</span>
+<span>28 pages</span>
+</div>
+</div>
+</label>
+<!-- Document 2 -->
+<label class="flex items-start gap-space-sm p-space-md rounded-lg bg-surface-card border border-border-crisp hover:border-mining-gold-bright/40 transition-colors cursor-pointer">
+<input checked="" class="mt-1 accent-amber-500 rounded cursor-pointer" type="checkbox"/>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between gap-2">
+<span class="font-body-md text-body-md font-semibold text-text-primary truncate">Geological_Lithology_Borehole_Data.xlsx</span>
+<span class="px-1.5 py-0.5 rounded text-mono-citation font-semibold bg-govtech-emerald-dim text-govtech-emerald shrink-0">Indexed</span>
+</div>
+<div class="flex items-center gap-space-xs mt-1 text-mono-citation text-text-muted">
+<span>8.6 MB</span>
+<span>•</span>
+<span>Seams X-XII Drill Core Assay</span>
+<span>•</span>
+<span>14 Sheets</span>
+</div>
+</div>
+</label>
+<!-- Document 3 (Excluded by default) -->
+<label class="flex items-start gap-space-sm p-space-md rounded-lg bg-surface-card/60 border border-border-subtle hover:border-border-crisp transition-colors opacity-75 cursor-pointer">
+<input class="mt-1 accent-amber-500 rounded cursor-pointer" type="checkbox"/>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between gap-2">
+<span class="font-body-md text-body-md font-medium text-text-secondary truncate">Coal_Washing_Beneficiation_Analysis.pdf</span>
+<span class="px-1.5 py-0.5 rounded text-mono-citation font-semibold bg-surface-dim text-text-muted shrink-0">Excluded</span>
+</div>
+<div class="flex items-center gap-space-xs mt-1 text-mono-citation text-text-muted">
+<span>15.1 MB</span>
+<span>•</span>
+<span>Patherdih Washery Output</span>
+<span>•</span>
+<span>Unchecked</span>
+</div>
+</div>
+</label>
+</div>
+<!-- Empty State (Hidden by default, toggled via prototype) -->
+<div class="hidden flex flex-col items-center justify-center p-space-xl rounded-xl border border-dashed border-border-crisp bg-surface-card/30 text-center" id="repo-empty-state">
+<div class="w-12 h-12 rounded-full bg-surface-card flex items-center justify-center text-text-muted mb-space-sm">
+<span class="material-symbols-outlined text-[28px]">folder_off</span>
+</div>
+<h4 class="font-headline-md text-headline-md font-bold text-text-primary">No History Found</h4>
+<p class="font-body-sm text-body-sm text-text-muted max-w-xs mt-1 mb-space-md">
+              No geological documents uploaded yet for this mining quadrant. Add bore logs or production returns to initiate RAG indexing.
+            </p>
+<button class="px-3 py-1.5 bg-primary-container text-surface-base font-bold text-body-sm rounded" type="button">
+              Upload First Geological File
+            </button>
+</div>
+</div>
+<!-- Ingestion Quick Dropzone / Footer Strip -->
+<div class="mt-space-xl pt-space-md border-t border-border-subtle flex flex-col space-y-space-sm">
+<div class="p-space-md rounded-lg border-2 border-dashed border-border-crisp hover:border-mining-gold-bright bg-surface-card/40 flex flex-col items-center justify-center text-center transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[22px] text-mining-gold-bright mb-1">cloud_upload</span>
+<span class="font-body-sm text-body-sm font-semibold text-text-primary">Drop Drill Core Logs or Survey PDFs</span>
+<span class="font-mono-citation text-mono-citation text-text-muted mt-0.5">Supports PDF, XLSX, LAS 2.0, CSV (Max 250MB)</span>
+</div>
+<div class="flex items-center justify-between font-mono-citation text-mono-citation text-text-muted px-1">
+<span class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-govtech-emerald"></span>
+              Parser: CMPDI Multimodal OCR v4.2
+            </span>
+<button class="text-text-secondary hover:text-text-primary underline" type="button">External Borehole Link</button>
+</div>
+</div>
+</aside>
+<!-- ===================================================================== -->
+<!-- RIGHT COLUMN: DUAL VIEWPORT CONTAINER (65% Width)                     -->
+<!-- ===================================================================== -->
+<main class="w-full xl:w-[65%] flex flex-col bg-surface-base p-space-lg space-y-space-lg overflow-y-auto">
+<!-- =================================================================== -->
+<!-- VIEW A: [ ANALYTICS & STRATIGRAPHY VIEW ] (DEFAULT)                 -->
+<!-- =================================================================== -->
+<div class="flex flex-col space-y-space-lg w-full" id="viewport-analytics">
+<!-- 1. Top Mining KPI Strip (4 High-Density Cards) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<!-- KPI 1 -->
+<div class="p-space-md rounded-xl bg-surface-card border border-border-crisp flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-mono-label text-mono-label text-text-muted uppercase">Coal Extraction</span>
+<span class="px-1.5 py-0.2 rounded text-mono-citation font-semibold bg-govtech-emerald-dim text-govtech-emerald">+6.2% YoY</span>
+</div>
+<div class="font-mono-metric-lg text-mono-metric-lg text-text-primary font-bold">14.82 <span class="text-headline-md font-normal text-text-muted">MT</span></div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-1">Target: 14.50 MT (FY24-25 Q3)</div>
+</div>
+<!-- KPI 2 -->
+<div class="p-space-md rounded-xl bg-surface-card border border-border-crisp flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-mono-label text-mono-label text-text-muted uppercase">Overburden (OBR)</span>
+<span class="px-1.5 py-0.2 rounded text-mono-citation font-semibold bg-mining-gold-bright/10 text-mining-gold-bright">98.2% Plan</span>
+</div>
+<div class="font-mono-metric-lg text-mono-metric-lg text-text-primary font-bold">32.14 <span class="text-headline-md font-normal text-text-muted">M.Cu.M</span></div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-1">Pits 1-6 Jharia Quadrants</div>
+</div>
+<!-- KPI 3 -->
+<div class="p-space-md rounded-xl bg-surface-card border border-border-crisp flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-mono-label text-mono-label text-text-muted uppercase">Stripping Ratio</span>
+<span class="px-1.5 py-0.2 rounded text-mono-citation font-semibold bg-surface-hover text-text-secondary">+0.06 Var</span>
+</div>
+<div class="font-mono-metric-lg text-mono-metric-lg text-mining-gold-bright font-bold">2.16 <span class="text-headline-md font-normal text-text-muted">Cu.M/T</span></div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-1">Normative Baseline: 2.10</div>
+</div>
+<!-- KPI 4 -->
+<div class="p-space-md rounded-xl bg-surface-card border border-border-crisp flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-mono-label text-mono-label text-text-muted uppercase">Inferred Reserves</span>
+<span class="px-1.5 py-0.2 rounded text-mono-citation font-semibold bg-govtech-emerald-dim text-govtech-emerald">Audited</span>
+</div>
+<div class="font-mono-metric-lg text-mono-metric-lg text-text-primary font-bold">184.5 <span class="text-headline-md font-normal text-text-muted">MT</span></div>
+<div class="font-body-sm text-body-sm text-text-secondary mt-1">Seams X, XI, XII Prime Coking</div>
+</div>
+</div>
+<!-- 2. Main Analytics Grid (Bar Chart Comparison + Word Cloud & Topics) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-lg">
+<!-- Column 1: Pit-Wise Production vs Target Extraction Chart -->
+<div class="flex flex-col p-space-lg rounded-xl bg-surface-card border border-border-crisp justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-sm border-b border-border-crisp mb-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-mining-gold-bright text-[20px]">bar_chart</span>
+<h3 class="font-headline-md text-headline-md font-bold text-text-primary">Pit-Wise Production vs Target</h3>
+</div>
+<span class="font-mono-citation text-mono-citation text-text-muted">In Million Tonnes (MT)</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mb-space-md">
+                  Active opencast extraction telemetry across Jharia subsidiary operational sectors compared to monthly target benchmarks.
+                </p>
+</div>
+<!-- Pit Bar Graph Visualization -->
+<div class="space-y-space-md py-space-sm">
+<!-- Pit 1: Lodna -->
+<div class="space-y-1">
+<div class="flex justify-between text-body-sm font-semibold">
+<span class="text-text-primary">Pit 1 - Lodna</span>
+<span class="font-mono-label text-mono-label text-govtech-emerald">3.40 / 3.20 MT (106%)</span>
+</div>
+<div class="w-full h-3 bg-surface-dim rounded-full overflow-hidden flex">
+<div class="h-full bg-mining-gold-bright rounded-full" style="width: 85%;"></div>
+</div>
+</div>
+<!-- Pit 2: Kusunda -->
+<div class="space-y-1">
+<div class="flex justify-between text-body-sm font-semibold">
+<span class="text-text-primary">Pit 2 - Kusunda</span>
+<span class="font-mono-label text-mono-label text-mining-gold-bright">4.10 / 4.15 MT (98.7%)</span>
+</div>
+<div class="w-full h-3 bg-surface-dim rounded-full overflow-hidden flex">
+<div class="h-full bg-mining-gold-bright rounded-full" style="width: 98%;"></div>
+</div>
+</div>
+<!-- Pit 3: Katras -->
+<div class="space-y-1">
+<div class="flex justify-between text-body-sm font-semibold">
+<span class="text-text-primary">Pit 3 - Katras</span>
+<span class="font-mono-label text-mono-label text-govtech-emerald">2.85 / 2.70 MT (105%)</span>
+</div>
+<div class="w-full h-3 bg-surface-dim rounded-full overflow-hidden flex">
+<div class="h-full bg-mining-gold-bright rounded-full" style="width: 71%;"></div>
+</div>
+</div>
+<!-- Pit 4: PB Area -->
+<div class="space-y-1">
+<div class="flex justify-between text-body-sm font-semibold">
+<span class="text-text-primary">Pit 4 - PB Project Area</span>
+<span class="font-mono-label text-mono-label text-state-warning">1.95 / 2.20 MT (88.6%)</span>
+</div>
+<div class="w-full h-3 bg-surface-dim rounded-full overflow-hidden flex">
+<div class="h-full bg-state-warning rounded-full" style="width: 58%;"></div>
+</div>
+</div>
+<!-- Pit 5: Bastacolla -->
+<div class="space-y-1">
+<div class="flex justify-between text-body-sm font-semibold">
+<span class="text-text-primary">Pit 5 - Bastacolla</span>
+<span class="font-mono-label text-mono-label text-govtech-emerald">1.60 / 1.50 MT (106%)</span>
+</div>
+<div class="w-full h-3 bg-surface-dim rounded-full overflow-hidden flex">
+<div class="h-full bg-mining-gold-bright rounded-full" style="width: 48%;"></div>
+</div>
+</div>
+<!-- Pit 6: Moonidih -->
+<div class="space-y-1">
+<div class="flex justify-between text-body-sm font-semibold">
+<span class="text-text-primary">Pit 6 - Moonidih Open Flank</span>
+<span class="font-mono-label text-mono-label text-text-muted">0.92 / 0.75 MT (122%)</span>
+</div>
+<div class="w-full h-3 bg-surface-dim rounded-full overflow-hidden flex">
+<div class="h-full bg-tertiary-container rounded-full" style="width: 32%;"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-sm border-t border-border-crisp text-mono-citation text-text-muted">
+<span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-mining-gold-bright"></span> Actual Extraction</span>
+<span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-surface-dim border border-border-crisp"></span> Baseline Capacity</span>
+</div>
+</div>
+<!-- Column 2: Mandatory Automated Word Cloud & Topic Identification -->
+<div class="flex flex-col p-space-lg rounded-xl bg-surface-card border border-border-crisp space-y-space-base">
+<div class="flex items-center justify-between pb-space-sm border-b border-border-crisp">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary-container text-[20px]">psychology</span>
+<h3 class="font-headline-md text-headline-md font-bold text-text-primary">Automated Word Cloud &amp; Topics</h3>
+</div>
+<span class="font-mono-citation text-mono-citation px-space-xs py-0.5 rounded bg-tertiary-container/10 text-tertiary-container border border-tertiary-container/30">NLP Entity Model</span>
+</div>
+<!-- Refined Modern Word Cloud (Weighted Typography) -->
+<div class="p-space-md rounded-lg bg-surface-dim/80 border border-border-crisp flex flex-wrap items-center justify-center gap-x-space-md gap-y-space-xs text-center py-6 select-none">
+<span class="text-[32px] font-bold text-mining-gold-bright tracking-tight leading-none hover:scale-105 transition-transform cursor-pointer" title="Frequency: 48 occurrences">Overburden</span>
+<span class="text-[20px] font-semibold text-tertiary-container tracking-normal hover:scale-105 transition-transform cursor-pointer" title="Frequency: 28 occurrences">Stripping Ratio</span>
+<span class="text-[26px] font-bold text-govtech-emerald leading-none hover:scale-105 transition-transform cursor-pointer" title="Frequency: 39 occurrences">Opencast</span>
+<span class="text-[14px] font-mono-label text-text-secondary hover:text-text-primary cursor-pointer" title="Frequency: 16 occurrences">Methane Drainage</span>
+<span class="text-[24px] font-bold text-mining-gold-bright leading-none hover:scale-105 transition-transform cursor-pointer" title="Frequency: 35 occurrences">Coking Coal</span>
+<span class="text-[18px] font-semibold text-text-primary hover:scale-105 transition-transform cursor-pointer" title="Frequency: 24 occurrences">Seam XII</span>
+<span class="text-[15px] font-medium text-govtech-emerald hover:scale-105 transition-transform cursor-pointer" title="Frequency: 19 occurrences">HEMM Fleet</span>
+<span class="text-[16px] font-semibold text-tertiary-container hover:scale-105 transition-transform cursor-pointer" title="Frequency: 21 occurrences">Beneficiation</span>
+<span class="text-[12px] font-mono-citation text-text-muted hover:text-text-secondary cursor-pointer" title="Frequency: 11 occurrences">Borehole Assay</span>
+</div>
+<!-- Structured Topic Identification & Statutory Badges -->
+<div class="space-y-space-xs">
+<span class="font-mono-label text-mono-label text-text-muted uppercase tracking-wider">Identified Statutory Findings:</span>
+<div class="flex flex-col space-y-space-xs pt-1">
+<!-- Topic 1 -->
+<div class="flex items-center justify-between p-2 rounded bg-surface-dim border border-border-crisp">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="w-1.5 h-1.5 rounded-full bg-govtech-emerald shrink-0"></span>
+<span class="font-body-sm text-body-sm font-medium text-text-primary truncate">Strata: Seam XI Hard Sandstone Roof</span>
+</div>
+<span class="px-2 py-0.5 rounded text-mono-citation font-semibold bg-govtech-emerald-dim text-govtech-emerald border border-govtech-emerald/30 shrink-0">High Stability</span>
+</div>
+<!-- Topic 2 -->
+<div class="flex items-center justify-between p-2 rounded bg-surface-dim border border-border-crisp">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="w-1.5 h-1.5 rounded-full bg-state-warning shrink-0"></span>
+<span class="font-body-sm text-body-sm font-medium text-text-primary truncate">Enviro: Pit 4 Deepening &amp; OBR Dump</span>
+</div>
+<span class="px-2 py-0.5 rounded text-mono-citation font-semibold bg-state-warning/20 text-state-warning border border-state-warning/30 shrink-0">Pending MoEFCC</span>
+</div>
+<!-- Topic 3 -->
+<div class="flex items-center justify-between p-2 rounded bg-surface-dim border border-border-crisp">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="w-1.5 h-1.5 rounded-full bg-govtech-emerald shrink-0"></span>
+<span class="font-body-sm text-body-sm font-medium text-text-primary truncate">Backfilling: Quarry 12 Depleted Void</span>
+</div>
+<span class="px-2 py-0.5 rounded text-mono-citation font-semibold bg-govtech-emerald-dim text-govtech-emerald border border-govtech-emerald/30 shrink-0">Compliant (DGMS)</span>
+</div>
+<!-- Topic 4 -->
+<div class="flex items-center justify-between p-2 rounded bg-surface-dim border border-border-crisp">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container shrink-0"></span>
+<span class="font-body-sm text-body-sm font-medium text-text-primary truncate">Mine Dewatering: Active Sump Drainage</span>
+</div>
+<span class="px-2 py-0.5 rounded text-mono-citation font-semibold bg-surface-hover text-text-secondary shrink-0">4,200 GPM Cont.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. Bottom Quick Link Card -->
+<div class="flex flex-col sm:flex-row items-center justify-between p-space-lg rounded-xl bg-gradient-to-r from-surface-card via-surface-card to-surface-dim border border-primary-container/30 gap-space-base shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center text-mining-gold-bright shrink-0">
+<span class="material-symbols-outlined text-[26px]">task_alt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md font-bold text-text-primary">Synthesized Executive Geological Brief Available</span>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Automated DGMS compliance checklist, reserve computation, and borehole cross-sections ready for official download.</p>
+</div>
+</div>
+<a class="px-space-lg py-2.5 rounded-lg bg-primary-container hover:bg-mining-gold-deep text-surface-base font-body-md font-bold flex items-center gap-space-xs transition-all shrink-0" href="#">
+<span>Open in Statutory Report Center</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- =================================================================== -->
+<!-- VIEW B: [ PARLIAMENTARY & ADMINISTRATIVE Q&A VIEW ]                -->
+<!-- =================================================================== -->
+<div class="hidden flex flex-col space-y-space-base w-full flex-1" id="viewport-chat">
+<!-- Context Banner -->
+<div class="flex items-center justify-between px-space-md py-2 rounded-lg bg-surface-card border border-border-crisp">
+<div class="flex items-center gap-space-sm text-body-sm text-text-secondary">
+<span class="flex items-center gap-1 text-govtech-emerald font-semibold">
+<span class="w-2 h-2 rounded-full bg-govtech-emerald animate-pulse"></span>
+                RAG Context Active
+              </span>
+<span>•</span>
+<span class="text-text-primary">2 Selected Files (22.8 MB)</span>
+<span>•</span>
+<span class="font-mono-citation text-text-muted">Gemini 1.5 Pro Multimodal Engine</span>
+</div>
+<div class="flex items-center gap-space-xs font-mono-citation text-mining-gold-bright">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+<span>CMPDI Sovereign Safe</span>
+</div>
+</div>
+<!-- Chat Stream Area -->
+<div class="flex flex-col space-y-space-base p-space-md rounded-xl bg-surface-dim border border-border-crisp min-h-[460px] overflow-y-auto">
+<!-- User Query Message (Right Aligned) -->
+<div class="flex justify-end">
+<div class="max-w-xl p-space-md rounded-xl rounded-tr-none bg-surface-hover border border-border-crisp text-text-primary font-body-md leading-relaxed shadow-sm">
+<div class="flex items-center justify-between gap-space-base text-mono-citation text-text-muted mb-1 pb-1 border-b border-border-crisp">
+<span class="font-semibold text-mining-gold-bright">Er. Dinesh Sharma (Chief Surveyor)</span>
+<span>14:32 IST</span>
+</div>
+                What is the certified stripping ratio variance and overburden removal status for Pit 4 in BCCL Jharia Opencast for Q3?
+              </div>
+</div>
+<!-- Assistant Intel Response Message (Left Aligned) -->
+<div class="flex justify-start">
+<div class="max-w-2xl p-space-lg rounded-xl rounded-tl-none bg-surface-card border border-border-crisp text-text-primary space-y-space-base shadow-sm">
+<div class="flex items-center justify-between pb-space-xs border-b border-border-crisp">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded bg-primary-container flex items-center justify-center text-surface-base font-bold text-[12px]">AI</span>
+<span class="font-body-md font-bold text-text-primary">CMPDI GeoReport AI Synthesizer</span>
+</div>
+<span class="px-space-xs py-0.5 rounded text-mono-citation bg-govtech-emerald-dim text-govtech-emerald border border-govtech-emerald/30 font-semibold">100% Grounded</span>
+</div>
+<div class="font-body-md text-body-md text-text-secondary leading-relaxed space-y-space-sm">
+<p>Based on certified geotechnical assay and monthly coal-survey records for <span class="text-text-primary font-semibold">BCCL Jharia Pit 4 (PB Project Area)</span> for Q3 FY24-25:</p>
+<ul class="list-disc list-inside space-y-1 text-text-primary font-body-md pl-1">
+<li>
+<strong class="text-mining-gold-bright">Overburden Removal (OBR):</strong> Pit 4 logged <span class="font-mono-label font-semibold text-text-primary">4.82 M.Cu.M</span> against a planned target of <span class="font-mono-label text-text-primary">5.44 M.Cu.M</span> (achievement rate: <strong>88.6%</strong>). The shortfall is attributed to delayed shovel haulage clearance at bench #4.
+                    </li>
+<li>
+<strong class="text-mining-gold-bright">Stripping Ratio:</strong> Realized composite stripping ratio stands at <span class="font-mono-label font-semibold text-text-primary">2.47 Cu.M/T</span> against the normative baseline of <span class="font-mono-label text-text-primary">2.10 Cu.M/T</span> (Variance: <span class="text-state-warning font-semibold">+0.37 Cu.M/T</span>).
+                    </li>
+<li>
+<strong class="text-mining-gold-bright">Strata Safety Notice:</strong> Seam XI roof stability remains within DGMS parameters; however, slope inclinometer #4 reported 2.1mm displacement near western haul road.
+                    </li>
+</ul>
+</div>
+<!-- Grounded Citation Evidence Tags -->
+<div class="pt-space-sm border-t border-border-crisp space-y-space-xs">
+<span class="font-mono-label text-mono-label text-text-muted uppercase tracking-wider block">Verifiable Audit Citations:</span>
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="inline-flex items-center gap-1 px-space-sm py-1 rounded bg-surface-dim text-tertiary-container border border-tertiary-container/40 font-mono-citation hover:bg-surface-hover cursor-pointer" title="Click to view parsed source snippet">
+<span class="material-symbols-outlined text-[14px]">picture_as_pdf</span>
+<span>[Source: BCCL_Overburden_Q3_2024.pdf — Page 14, Table 3.2]</span>
+</span>
+<span class="inline-flex items-center gap-1 px-space-sm py-1 rounded bg-surface-dim text-tertiary-container border border-tertiary-container/40 font-mono-citation hover:bg-surface-hover cursor-pointer" title="Click to view parsed sheet cells">
+<span class="material-symbols-outlined text-[14px]">table_chart</span>
+<span>[Source: Geological_Lithology_Borehole_Data.xlsx — Sheet: Seam_XI_Strata]</span>
+</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Parliamentary Navigation Query Chips (1-Click Prompts) -->
+<div class="flex flex-col space-y-space-xs">
+<span class="font-mono-citation text-mono-citation text-text-muted uppercase tracking-wider">Suggested Parliamentary Secretariat Queries:</span>
+<div class="flex flex-wrap gap-space-xs">
+<button class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-card hover:bg-surface-hover border border-border-crisp hover:border-mining-gold-bright text-text-secondary hover:text-text-primary text-body-sm transition-all" onclick="window.cmpdiStore.sendPrompt('Draft Lok Sabha Unstarred Question reply on Coking Coal reserves in Jharia Seams X-XII')" type="button">
+<span class="material-symbols-outlined text-[14px] text-mining-gold-bright">gavel</span>
+<span>Draft Lok Sabha Unstarred Question reply on Coking Coal reserves</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-card hover:bg-surface-hover border border-border-crisp hover:border-mining-gold-bright text-text-secondary hover:text-text-primary text-body-sm transition-all" onclick="window.cmpdiStore.sendPrompt('Summarize environmental clearance bottlenecks for Pit 4 deepening and MoEFCC status')" type="button">
+<span class="material-symbols-outlined text-[14px] text-state-warning">nature_people</span>
+<span>Summarize environmental clearance bottlenecks for Seam XI</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-card hover:bg-surface-hover border border-border-crisp hover:border-mining-gold-bright text-text-secondary hover:text-text-primary text-body-sm transition-all" onclick="window.cmpdiStore.sendPrompt('Calculate stripping ratio variance across Pits 1 to 6 in comparative table')" type="button">
+<span class="material-symbols-outlined text-[14px] text-tertiary-container">calculate</span>
+<span>Calculate stripping ratio variance across Pits 1 to 6</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-card hover:bg-surface-hover border border-border-crisp hover:border-mining-gold-bright text-text-secondary hover:text-text-primary text-body-sm transition-all" onclick="window.cmpdiStore.sendPrompt('Extract DGMS safety compliance audit highlights and haul road slope observations')" type="button">
+<span class="material-symbols-outlined text-[14px] text-govtech-emerald">health_and_safety</span>
+<span>Extract DGMS safety compliance audit highlights</span>
+</button>
+</div>
+</div>
+<!-- Floating Bottom Input Dock -->
+<div class="relative w-full rounded-xl bg-surface-card border border-border-crisp p-space-xs flex items-center gap-space-xs shadow-lg focus-within:border-mining-gold-bright transition-colors">
+<button class="w-9 h-9 rounded-lg bg-surface-dim hover:bg-surface-hover text-text-secondary hover:text-text-primary flex items-center justify-center transition-colors shrink-0" title="Attach external drill logs" type="button">
+<span class="material-symbols-outlined text-[20px]">attach_file</span>
+</button>
+<input class="w-full bg-transparent text-body-md text-text-primary placeholder:text-text-muted focus:outline-none px-2" id="chat-input-field" placeholder="Ask a geological, mining, or parliamentary inquiry on BCCL Jharia..." type="text"/>
+<button class="w-9 h-9 rounded-lg bg-surface-dim hover:bg-surface-hover text-text-secondary hover:text-text-primary flex items-center justify-center transition-colors shrink-0" title="Voice Input (Surveyor Dictation)" type="button">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+</button>
+<button class="px-space-md h-9 rounded-lg bg-primary-container hover:bg-mining-gold-deep text-surface-base font-bold text-body-sm flex items-center gap-1 transition-all shrink-0" onclick="alert('Query executed against multimodal RAG index.')" type="button">
+<span>Send</span>
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface-base border-t border-border-crisp py-space-xl"><div class="w-full px-space-xl flex flex-col md:flex-row items-center justify-between gap-space-base"><div class="flex items-center gap-space-md"><span class="font-mono-citation text-mono-citation text-text-muted">Problem Statement 26023</span><span class="text-border-crisp">|</span><span class="font-body-sm text-body-sm text-text-muted">Central Mine Planning and Design Institute (CMPDI)</span></div><div class="font-mono-citation text-mono-citation text-text-muted text-center md:text-right">© 2025 Ministry of Coal, Government of India. Authorised Personnel Only.</div></div></footer></body></html>
