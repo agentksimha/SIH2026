@@ -57,6 +57,11 @@ The gateway will be accessible at `http://localhost:5000`.
 
 | Method | Route | Description | Request Format | Response / Behavior |
 | :--- | :--- | :--- | :--- | :--- |
+| `POST` | `/api/v1/auth/register` | User Registration with password hashing & validation. | `application/json`<br>`{ "name", "email", "password" }` | `{ "success": true, "user": {...}, "token": "..." }` |
+| `POST` | `/api/v1/auth/login` | User Authentication & JWT generation. | `application/json`<br>`{ "email", "password" }` | `{ "success": true, "user": {...}, "token": "..." }` |
+| `POST` | `/api/v1/auth/google` | Google OAuth token verification & login/registration. | `application/json`<br>`{ "token": "google_id_token" }` | `{ "success": true, "user": {...}, "token": "..." }` |
+| `GET` | `/api/v1/auth/me` | Fetches current authenticated user profile. | Bearer Token in `Authorization` header | `{ "success": true, "user": {...} }` |
+| `POST` | `/api/v1/auth/logout` | Client-side session invalidation response. | Bearer Token in `Authorization` header | `{ "success": true, "message": "..." }` |
 | `POST` | `/api/v1/documents/upload` | Multipart file upload via Multer → forwards stream to ML service `/process-document`. | `multipart/form-data` with field `file` (`.pdf`, `.xlsx`, `.xls`, max 50MB). | `{ message, fileName, size, summary, kpis, wordcloud, topics }` or fallback with `offline: true`. |
 | `GET` | `/api/v1/reports/mock` | Returns pre-cached BCCL Jharia Basin geological report data for offline demo fallback. | None (Query / Headers optional). | Full structured report object matching prototype screens (14.82 MT coal, 32.14 M.Cu.M OBR, etc.). |
 | `POST` | `/api/v1/query` | Proxies parliamentary / geological natural language queries to the ML service `/query`. | `application/json`<br>`{ "query": string, "context_doc"?: string }` | `{ "answer": string, "citations": [{ "page": number, "source": string }] }` or fallback message. |
@@ -69,20 +74,31 @@ The gateway will be accessible at `http://localhost:5000`.
 ```
 backend/
 ├── .env.example                  # Environment template
-├── package.json                  # Express, cors, multer, axios, morgan dependencies
+├── package.json                  # Express, Mongoose, JWT, bcryptjs, cors, multer dependencies
 ├── README.md                     # Backend gateway documentation
+├── tests/                        # Automated unit & integration tests
+│   └── auth.test.js              # Auth endpoints test suite (Jest + Supertest)
 └── src/
     ├── server.js                 # Express application initialization, CORS, global middleware, route mounts
+    ├── config/                   # Configuration files
+    │   └── db.js                 # MongoDB connection logic
+    ├── models/                   # Mongoose schemas & models
+    │   └── User.js               # User model (local & Google OAuth schema)
     ├── routes/                   # HTTP route definitions
+    │   ├── auth.js               # Auth routes (/register, /login, /google, /me, /logout)
     │   ├── documents.js          # POST /upload route wired with upload middleware
     │   ├── query.js              # POST /query route
     │   └── reports.js            # GET /mock route
     ├── controllers/              # Request handlers & proxy logic
+    │   ├── authController.js     # User registration, login, Google OAuth, /me & logout
     │   ├── documentController.js # Handles Multer file staging, ML forwarding, cleanup & fallback
     │   ├── queryController.js    # Forwards Q&A queries to ML service with timeout handling
     │   └── reportController.js   # Reads and returns sample_data/mock_bccl_report.json
     ├── middleware/               # Express middleware
+    │   ├── auth.js               # JWT verification & Rate Limiting middleware
     │   └── upload.js             # Multer storage configuration (temp disk storage & file filtering)
+    ├── validators/               # Input schema validators
+    │   └── authValidator.js      # Joi schema validation for auth requests
     └── services/                 # External service integrations and helper utilities
 ```
 
@@ -98,6 +114,26 @@ backend/
 | **Parliamentary Query Routing** | `src/controllers/queryController.js` | Extend query payload attributes (e.g., user role, conversation history, filter by mine pit). |
 | **Offline Seed & Mock Reports** | `src/controllers/reportController.js` | Customize the pre-cached BCCL Jharia Basin data structure or integrate additional mine datasets (ECL, SECL, NCDC). |
 | **Reusable ML Gateway Service** | `src/services/` | Implement custom service abstractions for caching responses, managing persistent session state, or webhook retries. |
+
+---
+
+## 5.5 Authentication & User System
+
+The backend provides a production-ready authentication system supporting local registration and Google OAuth.
+Auth uses stateless JWT tokens (`Authorization: Bearer <token>`).
+
+**Key Endpoints:**
+- `POST /api/v1/auth/register` - Create a new user (requires name, email, password)
+- `POST /api/v1/auth/login` - Authenticate local user and receive JWT
+- `POST /api/v1/auth/google` - Authenticate via Google OAuth using Google ID token
+- `GET /api/v1/auth/me` - Retrieve current authenticated user profile
+- `POST /api/v1/auth/logout` - Invalidate current session (client-side token removal)
+
+**Required Environment Variables for Auth:**
+- `MONGO_URI` - MongoDB connection string (e.g., `mongodb://localhost:27017/cmpdi`)
+- `JWT_SECRET` - Secure string used for signing JSON Web Tokens
+- `JWT_EXPIRES_IN` - Token expiration (e.g., `7d`)
+- `GOOGLE_CLIENT_ID` - Google OAuth Client ID for verifying tokens
 
 ---
 
