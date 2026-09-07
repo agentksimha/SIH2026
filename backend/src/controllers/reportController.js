@@ -1,7 +1,4 @@
-/**
- * GET /api/v1/reports/mock
- * Returns pre-cached BCCL Jharia Basin data for instant offline demo fallback.
- */
+
 const getMockReport = (req, res) => {
   const mockReport = {
     subsidiary: 'BCCL',
@@ -56,23 +53,19 @@ const getMockReport = (req, res) => {
       sections: [
         {
           title: '1. Executive Abstract',
-          content:
-            'BCCL Jharia Opencast operations achieved 14.82 MT coal production in Q3, exceeding the 13.95 MT target by 6.2%. Overburden removal operations maintained pace at 32.14 M.Cu.M with a composite stripping ratio of 2.16.',
+          content: 'BCCL Jharia Opencast operations achieved 14.82 MT coal production in Q3, exceeding the 13.95 MT target by 6.2%. Overburden removal operations maintained pace at 32.14 M.Cu.M with a composite stripping ratio of 2.16.',
         },
         {
           title: '2. Lithological Stratigraphy',
-          content:
-            'Geological surveys across Seams X, XI, and XII confirm inferred coking coal reserves of 184.5 MT. Borehole analysis at depths 180-320m reveals consistent coal band thickness of 2.8-4.2m with intermittent sandstone and shale partings.',
+          content: 'Geological surveys across Seams X, XI, and XII confirm inferred coking coal reserves of 184.5 MT. Borehole analysis at depths 180-320m reveals consistent coal band thickness of 2.8-4.2m with intermittent sandstone and shale partings.',
         },
         {
           title: '3. Production Impediments',
-          content:
-            'Monsoon-related water ingress in Pit 2 caused a 3.6% shortfall against target. HEMM downtime due to scheduled maintenance in Pit 4 impacted OBR rates during Week 28-30.',
+          content: 'Monsoon-related water ingress in Pit 2 caused a 3.6% shortfall against target. HEMM downtime due to scheduled maintenance in Pit 4 impacted OBR rates during Week 28-30.',
         },
         {
           title: '4. Recommendations',
-          content:
-            'Expedite MoEFCC environmental clearance for Seam XII expansion. Augment dewatering infrastructure at Pit 2. Commission additional dragline capacity for Pit 6 to sustain OBR momentum into Q4.',
+          content: 'Expedite MoEFCC environmental clearance for Seam XII expansion. Augment dewatering infrastructure at Pit 2. Commission additional dragline capacity for Pit 6 to sustain OBR momentum into Q4.',
         },
       ],
     },
