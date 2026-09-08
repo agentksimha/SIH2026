@@ -227,6 +227,6 @@ Here is the exact checklist of what has been completed and what is left to commi
   GOOGLE_CLIENT_ID=your_google_oauth_client_id_if_testing_google_login
   ```
 
-#### 🔲 Task 4 (Optional / Pitch Polish): PDF Export Docket Endpoint
-* **Status**: Enhancement
-* Add route `GET /api/v1/reports/:id/export-pdf` or helper service to generate a signed PDF docket attachment with official Ministry metadata and SHA-256 hash stamp.
+#### ✅ Task 4: PDF Export Docket Endpoint
+* **Status**: Completed
+* Add route `GET /api/v1/reports/:id/export-pdf` — protected endpoint that generates a PDF docket for any document owned by the authenticated user. Includes SHA-256 integrity fingerprint, document metadata, AI summary, KPIs, and topics. No temporary files used.

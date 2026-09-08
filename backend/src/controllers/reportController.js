@@ -1,4 +1,8 @@
 
+const mongoose = require('mongoose');
+const Document = require('../models/Document');
+const { generateDocumentPDF, computeDocumentHash } = require('../services/pdfService');
+
 const getMockReport = (req, res) => {
   const mockReport = {
     subsidiary: 'BCCL',
@@ -74,4 +78,56 @@ const getMockReport = (req, res) => {
   res.json(mockReport);
 };
 
-module.exports = { getMockReport };
+/**
+ * GET /api/v1/reports/:id/export-pdf
+ *
+ * Exports a PDF docket for the authenticated user's uploaded document.
+ * Authorization: Bearer token required. Document must belong to req.user.
+ */
+const exportDocumentPDF = async (req, res) => {
+  const { id } = req.params;
+
+  // Validate MongoDB ObjectId format upfront
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ success: false, error: 'Invalid document ID format.' });
+  }
+
+  let doc;
+  try {
+    doc = await Document.findById(id).lean();
+  } catch (dbError) {
+    console.error('PDF export DB error:', dbError);
+    return res.status(500).json({ success: false, error: 'Database error while retrieving document.' });
+  }
+
+  if (!doc) {
+    return res.status(404).json({ success: false, error: 'Document not found.' });
+  }
+
+  // Authorization: enforce user ownership
+  if (doc.userId.toString() !== req.user._id.toString()) {
+    return res.status(403).json({ success: false, error: 'Access denied. You do not own this document.' });
+  }
+
+  let pdfBuffer;
+  try {
+    pdfBuffer = await generateDocumentPDF(doc, req.user);
+  } catch (pdfError) {
+    console.error('PDF generation error:', pdfError);
+    return res.status(500).json({ success: false, error: 'Failed to generate PDF.' });
+  }
+
+  // Safe filename: strip path chars, fallback if empty
+  const safeName = (doc.fileName || 'document').replace(/[^a-z0-9_\-\.]/gi, '_');
+  const exportName = `cmpdi_docket_${safeName}.pdf`;
+
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', `attachment; filename="${exportName}"`);
+  res.setHeader('Content-Length', pdfBuffer.length);
+  res.setHeader('X-Document-Id', doc._id.toString());
+  res.setHeader('X-Integrity-Hash', computeDocumentHash(doc));
+
+  return res.send(pdfBuffer);
+};
+
+module.exports = { getMockReport, exportDocumentPDF };
