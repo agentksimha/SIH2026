@@ -5,7 +5,8 @@ const User = require('../models/User');
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+  const secret = (process.env.JWT_SECRET && process.env.JWT_SECRET.trim()) || 'default_jwt_secret_dev_key';
+  return jwt.sign({ id }, secret, {
     expiresIn: process.env.JWT_EXPIRES_IN || '7d',
   });
 };

@@ -213,9 +213,9 @@ Here is the exact checklist of what has been completed and what is left to commi
   2. In `src/controllers/queryController.js`, save every successful Q&A exchange to MongoDB.
   3. Add `GET /api/v1/query/history` so the frontend chat dock can load and resume past conversations.
 
-#### 🔲 Task 3: Local / Cloud MongoDB Configuration
-* **Status**: Action required in `.env`
-* Ensure your `.env` file has a valid MongoDB connection string:
+#### ✅ Task 3: Local / Cloud MongoDB Configuration
+* **Status**: Completed / Configured
+* Ensure your local `.env` file has your valid MongoDB connection string:
   ```env
   PORT=5000
   ML_SERVICE_URL=http://localhost:8000
