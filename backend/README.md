@@ -159,29 +159,74 @@ During hackathons or field deployments in remote mining areas, connectivity to e
 
 ---
 
-## 7. Action Items for Backend Developers (What To Complete Next)
+## 7. 🚀 Upcoming Roadmap & TODO Checklist for Backend Team
 
-Hey backend teammate! Here are the remaining tasks to complete the backend service:
+Here is the exact checklist of what has been completed and what is left to commit:
 
-### Task 1: Connect Uploaded Document Metadata to MongoDB
-- Currently, `POST /api/v1/documents/upload` streams files to the ML service and returns the response without saving the file record in MongoDB.
-- **Action**:
-  1. Create a `Document` model in `src/models/Document.js` (fields: `userId`, `fileName`, `fileSize`, `uploadedAt`, `summary`, `kpis`, `wordcloud`, `topics`, `status`).
-  2. In `src/controllers/documentController.js`, save the uploaded document into MongoDB when a user is authenticated (`req.user.id`).
-  3. Add a `GET /api/v1/documents` endpoint to return the logged-in user's previously uploaded documents for the sidebar.
+### Current Status
+- [x] **Express Gateway & Port 5000 Scaffolding** (CORS, Morgan, JSON parser)
+- [x] **Multer File Upload Staging** (`.pdf`, `.xlsx`, `.csv`, max 50MB)
+- [x] **ML Gateway Proxying** (`/process-document` and `/query` forwarded to port 8000)
+- [x] **Dual-Layer Offline Fallback** (Seamless graceful degradation when ML service is offline)
+- [x] **User Authentication System** (JWT, bcryptjs password hashing, Google OAuth, User model, auth middleware)
 
-### Task 2: Store Conversation & Query History in MongoDB
-- Currently, `POST /api/v1/query` forwards queries to the ML service without saving past conversations.
-- **Action**:
-  1. Create a `QueryHistory` model in `src/models/QueryHistory.js` (fields: `userId`, `query`, `answer`, `citations`, `contextDoc`, `timestamp`).
+---
+
+### Pending Tasks to Implement & Commit:
+
+#### 🔲 Task 1: Document Persistence & Sidebar Endpoint (MongoDB)
+* **Status**: Pending
+* **Description**: Currently, `POST /api/v1/documents/upload` streams uploaded files to the ML service and returns analytical JSON without saving the file record in MongoDB.
+* **Steps**:
+  1. Create a `Document` model in `src/models/Document.js` with fields:
+     ```javascript
+     {
+       userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+       fileName: String,
+       fileSize: Number,
+       uploadedAt: { type: Date, default: Date.now },
+       summary: String,
+       kpis: Object,
+       wordcloud: Array,
+       topics: Array,
+       status: { type: String, enum: ['processing', 'completed', 'failed'], default: 'completed' }
+     }
+     ```
+  2. In `src/controllers/documentController.js`, save the uploaded document into MongoDB when `req.user` is available.
+  3. Add `GET /api/v1/documents` in `src/routes/documents.js` and `src/controllers/documentController.js` to return all documents uploaded by the logged-in user so the frontend sidebar can list them dynamically.
+
+#### 🔲 Task 2: Store Q&A Conversation History (MongoDB)
+* **Status**: Pending
+* **Description**: `POST /api/v1/query` forwards queries to the ML service but does not save conversation history.
+* **Steps**:
+  1. Create a `QueryHistory` model in `src/models/QueryHistory.js`:
+     ```javascript
+     {
+       userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+       query: String,
+       answer: String,
+       citations: [{ page: Number, source: String }],
+       contextDoc: String,
+       timestamp: { type: Date, default: Date.now }
+     }
+     ```
   2. In `src/controllers/queryController.js`, save every successful Q&A exchange to MongoDB.
-  3. Add a `GET /api/v1/query/history` endpoint so the frontend chat stream can reload past questions.
+  3. Add `GET /api/v1/query/history` so the frontend chat dock can load and resume past conversations.
 
-### Task 3: Setup Local / Cloud MongoDB
-- In your `.env` file, ensure `MONGO_URI` is populated:
+#### 🔲 Task 3: Local / Cloud MongoDB Configuration
+* **Status**: Action required in `.env`
+* Ensure your `.env` file has a valid MongoDB connection string:
   ```env
+  PORT=5000
+  ML_SERVICE_URL=http://localhost:8000
   MONGO_URI=mongodb://127.0.0.1:27017/cmpdi_georeport
-  # Or use a free MongoDB Atlas connection URI
-  JWT_SECRET=your_super_secret_jwt_key
+  # Or use your MongoDB Atlas URI:
+  # MONGO_URI=mongodb+srv://<user>:<password>@cluster0.mongodb.net/cmpdi_georeport
+  JWT_SECRET=your_super_secure_jwt_secret_key_here
   JWT_EXPIRES_IN=7d
+  GOOGLE_CLIENT_ID=your_google_oauth_client_id_if_testing_google_login
   ```
+
+#### 🔲 Task 4 (Optional / Pitch Polish): PDF Export Docket Endpoint
+* **Status**: Enhancement
+* Add route `GET /api/v1/reports/:id/export-pdf` or helper service to generate a signed PDF docket attachment with official Ministry metadata and SHA-256 hash stamp.
