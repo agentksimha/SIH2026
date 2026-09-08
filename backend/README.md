@@ -156,3 +156,32 @@ During hackathons or field deployments in remote mining areas, connectivity to e
      ```
 3. **Instant Mock Report (`/api/v1/reports/mock`):**
    - Always accessible without external dependencies. Reads directly from `sample_data/mock_bccl_report.json` to guarantee a 100% stable presentation demonstration.
+
+---
+
+## 7. Action Items for Backend Developers (What To Complete Next)
+
+Hey backend teammate! Here are the remaining tasks to complete the backend service:
+
+### Task 1: Connect Uploaded Document Metadata to MongoDB
+- Currently, `POST /api/v1/documents/upload` streams files to the ML service and returns the response without saving the file record in MongoDB.
+- **Action**:
+  1. Create a `Document` model in `src/models/Document.js` (fields: `userId`, `fileName`, `fileSize`, `uploadedAt`, `summary`, `kpis`, `wordcloud`, `topics`, `status`).
+  2. In `src/controllers/documentController.js`, save the uploaded document into MongoDB when a user is authenticated (`req.user.id`).
+  3. Add a `GET /api/v1/documents` endpoint to return the logged-in user's previously uploaded documents for the sidebar.
+
+### Task 2: Store Conversation & Query History in MongoDB
+- Currently, `POST /api/v1/query` forwards queries to the ML service without saving past conversations.
+- **Action**:
+  1. Create a `QueryHistory` model in `src/models/QueryHistory.js` (fields: `userId`, `query`, `answer`, `citations`, `contextDoc`, `timestamp`).
+  2. In `src/controllers/queryController.js`, save every successful Q&A exchange to MongoDB.
+  3. Add a `GET /api/v1/query/history` endpoint so the frontend chat stream can reload past questions.
+
+### Task 3: Setup Local / Cloud MongoDB
+- In your `.env` file, ensure `MONGO_URI` is populated:
+  ```env
+  MONGO_URI=mongodb://127.0.0.1:27017/cmpdi_georeport
+  # Or use a free MongoDB Atlas connection URI
+  JWT_SECRET=your_super_secret_jwt_key
+  JWT_EXPIRES_IN=7d
+  ```

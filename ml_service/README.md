@@ -195,3 +195,49 @@ The `legacy/` directory preserves the initial prototype built during Phase 1:
 - `legacy/rss_feed.py`: Helper script for scraping Coal India news and press releases.
 
 > **Guidance for Developers:** Use `legacy/` as an architectural reference for prompt wording and domain terminology, but write clean, modular, async code conforming to FastAPI and the modern Gemini SDK in `agents/` and `parsers/`.
+
+---
+
+## 7. Action Items for ML Developers (Using `cil_rag_pipeline2.zip`)
+
+Hey ML teammate! An existing working RAG pipeline was uploaded to `ml_service/cil_rag_pipeline2.zip`. You can directly utilize it instead of starting from scratch!
+
+### What is Inside `cil_rag_pipeline2.zip`:
+```
+cil_rag_pipeline/
+└── cil_rag/
+    ├── ingestion/
+    │   ├── chunker.py           # Document chunking logic
+    │   ├── vision_extract.py    # Vision-based page extraction using Gemini
+    │   ├── index_builder.py     # Builds hybrid vector & keyword index
+    │   ├── ingest_pipeline.py   # Full ingestion pipeline
+    │   └── sqlite_store.py      # SQLite document store
+    ├── query/
+    │   ├── query_pipeline.py    # Hybrid search pipeline
+    │   ├── router.py            # Routes queries (direct vs RAG)
+    │   ├── rrf.py               # Reciprocal Rank Fusion ranking
+    │   └── answer.py            # Gemini answer generation with citations
+    ├── data/
+    │   ├── index.pkl            # Pre-indexed BCCL embeddings
+    │   └── page_images/         # Extracted page PNGs
+    └── demo_query.py            # Standalone test runner
+```
+
+### Action Items to Complete:
+1. **Unzip the pipeline**:
+   ```bash
+   cd ml_service
+   # Extract the zip file:
+   python -c "import zipfile; zipfile.ZipFile('cil_rag_pipeline2.zip').extractall('.')"
+   ```
+2. **Wire Query into `main.py`**:
+   - In `ml_service/main.py`, import `QueryPipeline` from `cil_rag.query.query_pipeline`:
+     ```python
+     from cil_rag.query.query_pipeline import QueryPipeline
+     pipeline = QueryPipeline()
+     ```
+   - In `@app.post("/query")`, call `pipeline.run(request.query)` to return the real Gemini response with page citations!
+3. **Wire Document Processing into `main.py`**:
+   - In `@app.post("/process-document")`, call `ingest_pipeline` on the uploaded temporary file to extract sections, KPIs, and generate embeddings.
+4. **Test the endpoints**:
+   - Run `uvicorn main:app --reload --port 8000` and test with `curl` or open `http://localhost:8000/docs`.

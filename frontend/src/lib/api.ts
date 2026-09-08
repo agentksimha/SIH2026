@@ -67,7 +67,7 @@ async function request<T>(path: string, init: RequestInit = {}, token?: string):
   }
 }
 
-export function getMockReport(token: string): Promise<ReportData> {
+export function getMockReport(token?: string): Promise<ReportData> {
   return request<ReportData>("/api/v1/reports/mock", {}, token);
 }
 
@@ -91,7 +91,7 @@ export function getCurrentUser(token: string): Promise<CurrentUserResponse> {
   return request<CurrentUserResponse>("/api/v1/auth/me", {}, token);
 }
 
-export function uploadDocument(file: File, token: string): Promise<UploadResponse> {
+export function uploadDocument(file: File, token?: string): Promise<UploadResponse> {
   const formData = new FormData();
   formData.append("file", file);
 
@@ -102,7 +102,7 @@ export function uploadDocument(file: File, token: string): Promise<UploadRespons
   );
 }
 
-export function submitQuery(query: string, contextDocument: string, token: string): Promise<QueryResponse> {
+export function submitQuery(query: string, contextDocument: string, token?: string): Promise<QueryResponse> {
   return request<QueryResponse>(
     "/api/v1/query",
     {
