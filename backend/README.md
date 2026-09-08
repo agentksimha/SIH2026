@@ -62,9 +62,12 @@ The gateway will be accessible at `http://localhost:5000`.
 | `POST` | `/api/v1/auth/google` | Google OAuth token verification & login/registration. | `application/json`<br>`{ "token": "google_id_token" }` | `{ "success": true, "user": {...}, "token": "..." }` |
 | `GET` | `/api/v1/auth/me` | Fetches current authenticated user profile. | Bearer Token in `Authorization` header | `{ "success": true, "user": {...} }` |
 | `POST` | `/api/v1/auth/logout` | Client-side session invalidation response. | Bearer Token in `Authorization` header | `{ "success": true, "message": "..." }` |
-| `POST` | `/api/v1/documents/upload` | Multipart file upload via Multer → forwards stream to ML service `/process-document`. | `multipart/form-data` with field `file` (`.pdf`, `.xlsx`, `.xls`, max 50MB). | `{ message, fileName, size, summary, kpis, wordcloud, topics }` or fallback with `offline: true`. |
+| `POST` | `/api/v1/documents/upload` | Multipart file upload via Multer → forwards stream to ML service `/process-document`. Persists record to MongoDB if authenticated. | `multipart/form-data` with field `file` (`.pdf`, `.xlsx`, `.xls`, max 50MB). Optional Bearer Token. | `{ message, fileName, size, documentId, summary, kpis, wordcloud, topics }` or fallback with `offline: true`. |
+| `GET` | `/api/v1/documents` | Fetches uploaded documents history for the authenticated user (sidebar list). | Bearer Token in `Authorization` header | `{ "success": true, "count": N, "documents": [...] }` |
 | `GET` | `/api/v1/reports/mock` | Returns pre-cached BCCL Jharia Basin geological report data for offline demo fallback. | None (Query / Headers optional). | Full structured report object matching prototype screens (14.82 MT coal, 32.14 M.Cu.M OBR, etc.). |
-| `POST` | `/api/v1/query` | Proxies parliamentary / geological natural language queries to the ML service `/query`. | `application/json`<br>`{ "query": string, "context_doc"?: string }` | `{ "answer": string, "citations": [{ "page": number, "source": string }] }` or fallback message. |
+| `GET` | `/api/v1/reports/:id/export-pdf` | Generates & downloads a formal PDF analysis docket with SHA-256 integrity fingerprint for a user document. | Bearer Token in `Authorization` header | Binary PDF stream (`Content-Type: application/pdf`, `X-Integrity-Hash`, `Content-Disposition: attachment`). |
+| `POST` | `/api/v1/query` | Proxies parliamentary / geological natural language queries to the ML service `/query`. Persists to history if authenticated. | `application/json`<br>`{ "query": string, "context_doc"?: string }`. Optional Bearer Token. | `{ "answer": string, "citations": [{ "page": number, "source": string }] }` or fallback message. |
+| `GET` | `/api/v1/query/history` | Fetches Q&A conversation history for the authenticated user (chat dock). | Bearer Token in `Authorization` header | `{ "success": true, "count": N, "history": [...] }` |
 | `GET` | `/api/health` | Gateway health check. | None | `{ "status": "ok", "service": "CMPDI GeoReport API Gateway", "timestamp": "..." }` |
 
 ---
@@ -73,33 +76,39 @@ The gateway will be accessible at `http://localhost:5000`.
 
 ```
 backend/
-├── .env.example                  # Environment template
-├── package.json                  # Express, Mongoose, JWT, bcryptjs, cors, multer dependencies
+├── .env.example                  # Environment template with safe configuration placeholders
+├── package.json                  # Express, Mongoose, JWT, bcryptjs, cors, multer, pdfkit
 ├── README.md                     # Backend gateway documentation
-├── tests/                        # Automated unit & integration tests
-│   └── auth.test.js              # Auth endpoints test suite (Jest + Supertest)
+├── tests/                        # Automated unit & integration tests (Jest + Supertest + In-Memory MongoDB)
+│   ├── auth.test.js              # Auth endpoints test suite
+│   ├── document.test.js          # Document upload, persistence & sidebar list test suite
+│   ├── query.test.js             # Q&A forwarding & conversation history test suite
+│   └── pdf.test.js               # PDF export docket, integrity hash & ownership test suite
 └── src/
     ├── server.js                 # Express application initialization, CORS, global middleware, route mounts
     ├── config/                   # Configuration files
-    │   └── db.js                 # MongoDB connection logic
+    │   └── db.js                 # MongoDB connection logic (reads MONGO_URI)
     ├── models/                   # Mongoose schemas & models
-    │   └── User.js               # User model (local & Google OAuth schema)
+    │   ├── User.js               # User model (local & Google OAuth schema)
+    │   ├── Document.js           # Document model (metadata, summary, KPIs, topics, status, index)
+    │   └── QueryHistory.js       # Q&A conversation history model (query, answer, citations, index)
     ├── routes/                   # HTTP route definitions
     │   ├── auth.js               # Auth routes (/register, /login, /google, /me, /logout)
-    │   ├── documents.js          # POST /upload route wired with upload middleware
-    │   ├── query.js              # POST /query route
-    │   └── reports.js            # GET /mock route
+    │   ├── documents.js          # Document routes (POST /upload, GET /)
+    │   ├── query.js              # Query routes (POST /, GET /history)
+    │   └── reports.js            # Report routes (GET /mock, GET /:id/export-pdf)
     ├── controllers/              # Request handlers & proxy logic
     │   ├── authController.js     # User registration, login, Google OAuth, /me & logout
-    │   ├── documentController.js # Handles Multer file staging, ML forwarding, cleanup & fallback
-    │   ├── queryController.js    # Forwards Q&A queries to ML service with timeout handling
-    │   └── reportController.js   # Reads and returns sample_data/mock_bccl_report.json
+    │   ├── documentController.js # Multer file staging, ML forwarding, DB persistence & sidebar retrieval
+    │   ├── queryController.js    # Q&A ML proxying, conversation history persistence & retrieval
+    │   └── reportController.js   # Mock reports & PDF docket generation handler
     ├── middleware/               # Express middleware
-    │   ├── auth.js               # JWT verification & Rate Limiting middleware
+    │   ├── auth.js               # JWT verification (protect), setOptionalUser, & Rate Limiting
     │   └── upload.js             # Multer storage configuration (temp disk storage & file filtering)
     ├── validators/               # Input schema validators
     │   └── authValidator.js      # Joi schema validation for auth requests
-    └── services/                 # External service integrations and helper utilities
+    └── services/                 # Helper utilities & generation services
+        └── pdfService.js         # PDFKit document generation & SHA-256 integrity hashing
 ```
 
 ---
