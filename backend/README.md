@@ -174,9 +174,9 @@ Here is the exact checklist of what has been completed and what is left to commi
 
 ### Pending Tasks to Implement & Commit:
 
-#### 🔲 Task 1: Document Persistence & Sidebar Endpoint (MongoDB)
-* **Status**: Pending
-* **Description**: Currently, `POST /api/v1/documents/upload` streams uploaded files to the ML service and returns analytical JSON without saving the file record in MongoDB.
+#### ✅ Task 1: Document Persistence & Sidebar Endpoint (MongoDB)
+* **Status**: Completed
+* **Description**: `POST /api/v1/documents/upload` now persists document metadata to MongoDB and handles ML failures gracefully. Added `GET /api/v1/documents` for the sidebar.
 * **Steps**:
   1. Create a `Document` model in `src/models/Document.js` with fields:
      ```javascript

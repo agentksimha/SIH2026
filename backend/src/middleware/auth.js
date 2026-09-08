@@ -18,7 +18,8 @@ const protect = async (req, res, next) => {
   }
 
   try{
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret_key');
+    const secret = (process.env.JWT_SECRET && process.env.JWT_SECRET.trim()) || 'default_jwt_secret_dev_key';
+    const decoded = jwt.verify(token, secret);
     const user = await User.findById(decoded.id).select('-password');
     
     if(!user){
@@ -55,4 +56,18 @@ const authRateLimiter = rateLimit({
   }
 });
 
-module.exports = { protect, authRateLimiter };
+const setOptionalUser = async (req, res, next) => {
+  let token;
+  if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+    token = req.headers.authorization.split(' ')[1];
+  }
+  if(!token) return next();
+  try {
+    const secret = (process.env.JWT_SECRET && process.env.JWT_SECRET.trim()) || 'default_jwt_secret_dev_key';
+    const decoded = jwt.verify(token, secret);
+    req.user = await User.findById(decoded.id).select('-password');
+  } catch(error) {}
+  next();
+};
+
+module.exports = { protect, authRateLimiter, setOptionalUser };
