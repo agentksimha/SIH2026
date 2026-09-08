@@ -195,9 +195,9 @@ Here is the exact checklist of what has been completed and what is left to commi
   2. In `src/controllers/documentController.js`, save the uploaded document into MongoDB when `req.user` is available.
   3. Add `GET /api/v1/documents` in `src/routes/documents.js` and `src/controllers/documentController.js` to return all documents uploaded by the logged-in user so the frontend sidebar can list them dynamically.
 
-#### 🔲 Task 2: Store Q&A Conversation History (MongoDB)
-* **Status**: Pending
-* **Description**: `POST /api/v1/query` forwards queries to the ML service but does not save conversation history.
+#### ✅ Task 2: Store Q&A Conversation History (MongoDB)
+* **Status**: Completed
+* **Description**: `POST /api/v1/query` now saves successful Q&A exchanges to MongoDB. Added `GET /api/v1/query/history` to load past conversations.
 * **Steps**:
   1. Create a `QueryHistory` model in `src/models/QueryHistory.js`:
      ```javascript
