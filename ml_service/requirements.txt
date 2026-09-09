@@ -19,5 +19,11 @@ pillow==10.3.0
 # Cache
 cachetools==5.3.3
 
+langchain==1.4.0
+langgraph==1.2.11
+langchain-community==0.4.2
+langchain-google-genai==4.4.0
+python-multipart==0.0.32
+
 
 

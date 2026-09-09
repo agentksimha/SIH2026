@@ -7,8 +7,11 @@ Problem Statement ID: 26023 | Ministry of Coal / CIL (CMPDI)
 import os
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import Optional
+from agents.query_agent import query_workflow
+import asyncio
 
 app = FastAPI(
     title="CMPDI GeoReport AI — ML Service",
@@ -89,8 +92,8 @@ async def process_document(file: UploadFile = File(...)):
         ],
     }
 
-
-@app.post("/query", response_model=QueryResponse)
+#--> This endpoint gives streaming responses to facilitate good user experience
+@app.post("/query",response_class=StreamingResponse)#, response_model=QueryResponse)
 async def query_documents(request: QueryRequest):
     """
     Accepts a query and optional context document identifier.
@@ -101,18 +104,25 @@ async def query_documents(request: QueryRequest):
 
     # TODO: Implement actual RAG pipeline with Gemini
     # For now, return a realistic placeholder
+    print("recieved : ",request.query)
+    async def generate():
+        for message,metadata in query_workflow.stream({'query':request.query},stream_mode='messages'):
+            if message.content:
+                yield message.content[0]['text']
 
-    return QueryResponse(
-        answer=(
-            "Based on the BCCL Quarterly Geological Report (Q3 FY2025-26), "
-            "the total coking coal reserves inferred across Seams X, XI, and XII "
-            "in the Jharia Coalfield stand at approximately 184.5 Million Tonnes. "
-            "Pit-wise production analysis indicates Pit 1 exceeded its target by 4.3%, "
-            "while Pit 2 experienced a 3.6% shortfall attributed to monsoon-related "
-            "water ingress."
-        ),
-        citations=[
-            Citation(page=14, source="BCCL Quarterly Geological Report Q3"),
-            Citation(page=28, source="BCCL Production Returns FY2025-26"),
-        ],
-    )
+    return StreamingResponse(generate(),media_type="text/plain")
+
+    # return QueryResponse(
+    #     answer=(
+    #         "Based on the BCCL Quarterly Geological Report (Q3 FY2025-26), "
+    #         "the total coking coal reserves inferred across Seams X, XI, and XII "
+    #         "in the Jharia Coalfield stand at approximately 184.5 Million Tonnes. "
+    #         "Pit-wise production analysis indicates Pit 1 exceeded its target by 4.3%, "
+    #         "while Pit 2 experienced a 3.6% shortfall attributed to monsoon-related "
+    #         "water ingress."
+    #     ),
+    #     citations=[
+    #         Citation(page=14, source="BCCL Quarterly Geological Report Q3"),
+    #         Citation(page=28, source="BCCL Production Returns FY2025-26"),
+    #     ],
+    # )
