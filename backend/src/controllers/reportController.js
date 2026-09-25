@@ -5,15 +5,23 @@ const { generateDocumentPDF, computeDocumentHash } = require('../services/pdfSer
 
 const getMockReport = (req, res) => {
   const mockReport = {
-    subsidiary: 'BCCL',
-    region: 'Jharia Coalfield',
-    reportTitle: 'BCCL Jharia Opencast — Quarterly Geological & Production Report (Q3 FY2025-26)',
+    dataMode: 'demo',
+    metadata: {
+      reportId: 'BCCL-JHARIA-Q3-FY2526',
+      title: 'BCCL Jharia Opencast — Quarterly Geological & Production Report (Q3 FY2025-26)',
+      subsidiary: 'BCCL',
+      region: 'Jharia Coalfield',
+      period: 'Q3 FY2025-26',
+      preparedBy: 'CMPDI Geological Survey Cell',
+      classification: 'Restricted — Internal Circulation',
+    },
     generatedAt: new Date().toISOString(),
     summary:
       'Bharat Coking Coal Limited (BCCL) operations in the Jharia Coalfield reported aggregate coal production of 14.82 Million Tonnes (MT) for Q3 FY2025-26, reflecting a 6.2% year-over-year increase. Overburden removal reached 32.14 Million Cubic Metres (M.Cu.M), maintaining the composite stripping ratio at 2.16 against a target of 2.10. Geological surveys of Seams X, XI, and XII indicate inferred reserves of approximately 184.5 MT of coking coal.',
     kpis: {
       coalProductionMT: 14.82,
       coalProductionTargetMT: 13.95,
+      yoyGrowthPercent: 6.2,
       overburdenRemovalMCuM: 32.14,
       strippingRatio: 2.16,
       strippingRatioTarget: 2.10,
