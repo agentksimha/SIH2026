@@ -25,5 +25,10 @@ langchain-community==0.4.2
 langchain-google-genai==4.4.0
 python-multipart==0.0.32
 
+# Scanned-document ingestion and hybrid retrieval
+PyMuPDF==1.24.10
+rank-bm25==0.2.2
+google-genai==1.55.0
+
 
 

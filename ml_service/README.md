@@ -51,6 +51,9 @@ It uses Google Gemini models (`gemini-2.5-flash`) orchestrated across specialize
    ```env
    GEMINI_API_KEY=your_gemini_api_key_here
    GEMINI_MODEL=gemini-2.5-flash
+   # Set these to the quota for the deployed Gemini model/account.
+   GEMINI_RPM=8
+   GEMINI_RPD=20
    PORT=8000
    ```
 6. Start the development server:
@@ -68,9 +71,21 @@ It uses Google Gemini models (`gemini-2.5-flash`) orchestrated across specialize
 
 | Method | Endpoint | Description | Request Payload | Response Schema |
 | :--- | :--- | :--- | :--- | :--- |
-| `POST` | `/process-document` | Ingests uploaded PDF or Excel document, extracts text/tables, executes multi-agent analysis, and returns structured summary, KPIs, word cloud, and topics. | `multipart/form-data`<br>`file`: binary file (`.pdf`, `.xlsx`) | ```json<br>{<br>  "summary": "Executive brief...",<br>  "kpis": {<br>    "coalProductionMT": 14.82,<br>    "overburdenRemovalMCuM": 32.14,<br>    "strippingRatio": 2.16,<br>    "inferredReservesMT": 184.5<br>  },<br>  "wordcloud": [<br>    {"value": "Overburden", "count": 64},<br>    {"value": "Stripping Ratio", "count": 48}<br>  ],<br>  "topics": [<br>    {"name": "Strata Stability", "status": "High Stability"},<br>    {"name": "Environmental Clearance", "status": "Pending MoEFCC"}<br>  ]<br>}<br>``` |
-| `POST` | `/query` | Verifiable RAG Q&A for geological and parliamentary queries. Returns synthesized response with strict page number and document citations. | `application/json`<br>```json<br>{<br>  "query": "What are the inferred coking coal reserves?",<br>  "context_doc": "BCCL_Q3_Report.pdf"<br>}<br>``` | ```json<br>{<br>  "answer": "The inferred reserves across Seams X, XI, and XII stand at 184.5 MT...",<br>  "citations": [<br>    {"page": 14, "source": "BCCL Quarterly Geological Report Q3"}<br>  ]<br>}<br>``` |
+| `POST` | `/process-document` | Ingests any PDF. Typed/native-text PDFs are chunked and embedded in a document-scoped FAISS vector store; scanned or mixed PDFs use Gemini Vision OCR. | `multipart/form-data`<br>`file`: PDF binary | Includes `document_id`, `document_type` (`typed` or `scanned`), chunk count, and status. |
+| `POST` | `/query` | Streams a grounded answer from indexed typed or scanned PDFs, followed by source chunk/page citations. | `application/json`<br>```json<br>{<br>  "query": "What is the MoU target for turnover?",<br>  "context_doc": ["a1b2c3d4e5f67890", "b1b2c3d4e5f67890"]<br>}<br>```<br>`context_doc` is optional; omit it to search every indexed document. A single ID or a comma-separated string is also accepted. | Plain text answer followed by `Sources:` lines. |
 | `GET` | `/health` | Health and readiness check endpoint. | None | ```json<br>{"status": "ok", "service": "CMPDI GeoReport ML Service"}<br>``` |
+
+---
+
+### Typed and scanned PDF demo
+
+After starting the service and setting `GEMINI_API_KEY`, run the end-to-end demo below. It creates one native-text PDF and one image-only (scanned) PDF, uploads both to the same endpoint, then prints the streamed answer for each document.
+
+```bash
+python agents/demo_ingest_and_query.py
+```
+
+Typed PDFs are stored under `storage/typed_documents/<document_id>/` as chunks plus a FAISS index. Scanned and mixed PDFs are stored under `storage/scanned_documents/<document_id>/` and use the existing OCR/table-retrieval pipeline.
 
 ---
 
@@ -161,29 +176,21 @@ The current `main.py` provides production-ready FastAPI endpoints with realistic
   - Implement geological stopword filtering and token frequency counting for the word cloud (e.g., `Overburden`, `Stripping Ratio`, `Coking Coal`, `Seam XII`).
   - Use Gemini to classify operational & compliance topics with status tags (e.g., `"Strata Stability": "High Stability"`, `"Environmental Clearance": "Pending MoEFCC"`).
 
-### Step 4: Build Query Agent with Citation Tracking (`agents/query_agent.py`)
+### Step 4: Scanned-PDF Query Agent with Citation Tracking (`agents/query_agent.py`)
 - **Assignee:** ML Engineer 2
 - **File:** `agents/query_agent.py`
-- **Tasks:**
-  - Implement page-level chunking and vector indexing (using FAISS + `sentence-transformers` or Gemini embeddings).
-  - Ingest user query and retrieve top-$k$ relevant page chunks.
-  - Prompt Gemini to answer parliamentary inquiries **only** using retrieved context and strictly emit citations matching `{"page": int, "source": str}`.
+- **Completed integration:**
+  - `agents/scanned_rag.py` connects the supplied vision-extraction pipeline to FastAPI without changing its package layout.
+  - Each PDF is identified by a content hash and gets its own page-image cache, extracted-page JSON, SQLite table store, and BM25 index under `storage/scanned_documents/`.
+  - The query agent retrieves only from the `context_doc` document ID and emits source chunk/page citations.
 
 ### Step 5: Wire Agents into FastAPI Endpoints
 - **Assignees:** ML Engineers 1 & 2
 - **File:** `ml_service/main.py`
-- **Tasks:**
-  - Replace static mock responses in `/process-document` with:
-    ```python
-    parsed_pages = extract_pdf_content(temp_file_path)
-    summary_and_kpis = await report_agent.analyze(parsed_pages)
-    topics_and_wc = await topic_agent.analyze(parsed_pages)
-    ```
-  - Replace static mock responses in `/query` with:
-    ```python
-    response = await query_agent.answer(request.query, request.context_doc)
-    ```
-  - Maintain the fallback return if Gemini API hits rate limits or network issues.
+- **Completed integration:**
+  - `/process-document` runs the batched Gemini Vision ingestion flow off FastAPI's event loop and returns `document_id`.
+  - `/query` uses that `document_id` as `context_doc`, generates a grounded answer, and streams its citations.
+  - Finished pages are cached immediately, so retrying an interrupted ingestion avoids re-billing completed OCR pages.
 
 ---
 
@@ -207,7 +214,7 @@ Here is the exact checklist of what has been completed and what is left to conne
 - [x] **Request / Response Schemas** (`QueryRequest`, `Citation`, `QueryResponse`, file upload validation)
 - [x] **Legacy Code Preserved** (Original scripts archived in `legacy/agent.py`, `legacy/main.py`)
 - [x] **Full RAG Engine Built & Uploaded** (`cil_rag_pipeline2.zip` with vision extraction, chunker, RRF reranking, SQLite store, and pre-indexed BCCL data)
-- [ ] **RAG Engine Extracted & Connected to FastAPI `main.py`** (Pending below)
+- [x] **RAG Engine Connected to FastAPI `main.py`** (scanned PDF ingestion and document-scoped querying)
 
 ---
 

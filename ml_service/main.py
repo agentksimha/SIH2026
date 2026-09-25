@@ -9,8 +9,10 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
-from typing import Optional
-from agents.query_agent import query_workflow
+from typing import Optional, Union
+from agents.document_ingestion import ingest_pdf
+from agents.gemini_rate_limiter import GeminiRateLimitExceeded
+from agents.query_agent import stream_document_answer
 import asyncio
 
 app = FastAPI(
@@ -32,7 +34,9 @@ app.add_middleware(
 
 class QueryRequest(BaseModel):
     query: str
-    context_doc: Optional[str] = ""
+    # Omit context_doc to search every indexed document, or provide one ID,
+    # a comma-separated string, or an array of IDs to limit the search.
+    context_doc: Optional[Union[str, list[str]]] = None
 
 
 class Citation(BaseModel):
@@ -55,42 +59,25 @@ async def health_check():
 @app.post("/process-document")
 async def process_document(file: UploadFile = File(...)):
     """
-    Ingests uploaded PDF, extracts text, calls report_agent and topic_agent,
-    and returns structured summary, KPIs, wordcloud, and topics.
+    Ingests a typed PDF into FAISS or a scanned PDF through vision OCR, then returns its document ID.
+    Send that ID as ``context_doc`` to /query.
     """
     if not file.filename:
         raise HTTPException(status_code=400, detail="No file provided")
 
-    # TODO: Implement actual PDF text extraction and agent pipeline
-    # For now, return realistic mock data matching BCCL Jharia prototype screens
-
-    return {
-        "summary": (
-            "Bharat Coking Coal Limited (BCCL) Jharia Opencast operations reported "
-            "aggregate coal production of 14.82 Million Tonnes (MT) for Q3 FY2025-26, "
-            "reflecting a 6.2% year-over-year increase. Overburden removal reached "
-            "32.14 Million Cubic Metres (M.Cu.M), maintaining the composite stripping "
-            "ratio at 2.16 against a target of 2.10. Geological surveys of Seams X, XI, "
-            "and XII indicate inferred reserves of approximately 184.5 MT of coking coal."
-        ),
-        "kpis": {
-            "coalProductionMT": 14.82,
-            "overburdenRemovalMCuM": 32.14,
-            "strippingRatio": 2.16,
-            "inferredReservesMT": 184.5,
-        },
-        "wordcloud": [
-            {"value": "Overburden", "count": 64},
-            {"value": "Stripping Ratio", "count": 48},
-            {"value": "Coking Coal", "count": 42},
-            {"value": "Opencast", "count": 39},
-            {"value": "Seam XII", "count": 31},
-        ],
-        "topics": [
-            {"name": "Strata Stability", "status": "High Stability"},
-            {"name": "Environmental Clearance", "status": "Pending MoEFCC"},
-        ],
-    }
+    try:
+        # Vision OCR and indexing are CPU/network-bound; keep FastAPI's event
+        # loop free so health checks and other requests still respond.
+        content = await file.read()
+        return await asyncio.to_thread(ingest_pdf, file.filename, content)
+    except GeminiRateLimitExceeded as exc:
+        # A planned quota rejection is not an ingestion failure; clients can
+        # retry after the configured rolling daily window has room.
+        raise HTTPException(status_code=429, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Document ingestion failed: {exc}") from exc
 
 #--> This endpoint gives streaming responses to facilitate good user experience
 @app.post("/query",response_class=StreamingResponse)#, response_model=QueryResponse)
@@ -102,13 +89,14 @@ async def query_documents(request: QueryRequest):
     if not request.query.strip():
         raise HTTPException(status_code=400, detail="Query cannot be empty")
 
-    # TODO: Implement actual RAG pipeline with Gemini
-    # For now, return a realistic placeholder
-    print("recieved : ",request.query)
     async def generate():
-        for message,metadata in query_workflow.stream({'query':request.query},stream_mode='messages'):
-            if message.content:
-                yield message.content[0]['text']
+        try:
+            async for chunk in stream_document_answer(request.query, request.context_doc):
+                yield chunk
+        except (ValueError, FileNotFoundError) as exc:
+            yield f"Query error: {exc}"
+        except Exception as exc:
+            yield f"Query error: {exc}"
 
     return StreamingResponse(generate(),media_type="text/plain")
 
